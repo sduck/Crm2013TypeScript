@@ -59,7 +59,7 @@ interface Page {
 interface ui {
     /**
       * Use this method to remove form level notifications
-      * @param string A unique identifier for the message used with setFormNotification to set the notification
+      * @param uniqueId A unique identifier for the message used with setFormNotification to set the notification
       * @returns True if the method succeeded, otherwise false
       */
     clearFormNotification(uniqueId: string): boolean;
@@ -68,9 +68,9 @@ interface ui {
       * Use this method to display form level notifications. 
       * You can display any number of notifications and they will be displayed until they are removed using clearFormNotification. 
       * The height of the notification area is limited so each new message will be added to the top. Users can scroll down to view older messages that have not yet been removed
-      * @param string The text of the message 
-      * @param string The level of the message; ERROR, WARNING, or INFO
-      * @param string unique identifier for the message used with clearFormNotification to remove the notification
+      * @param message The text of the message 
+      * @param level The level of the message; ERROR, WARNING, or INFO
+      * @param uniqueId unique identifier for the message used with clearFormNotification to remove the notification
       * @returns True if the method succeeded, otherwise false
       */
     setFormNotification(message: string, level: string, uniqueId: string): boolean;
@@ -211,9 +211,41 @@ interface Context {
     isOutlookOnline(): boolean; /// Returns a Boolean value indicating whether the user is connected to the Microsoft Dynamics CRM server while using Microsoft Dynamics CRM for Microsoft Office Outlook with Offline Access. When this function returns false, the user is not connected to the server. The user is interacting with an instance of Microsoft Dynamics CRM running on the local computer.
     prependOrgName(sPath: string): string; // Prepends the organization name to the specified path.
 }
+
 interface data {
+    /**
+      * Asynchronously refreshes and optionally saves all the data of the form without reloading the page
+      * @param save A Boolean value to indicate if data should be saved after it is refreshed
+      */
+    refresh(save: boolean): DataRefreshResult;
+
+    /**
+      * Saves the record asynchronously with the option to set callback functions to be executed after the save operation is completed
+      */
+    save(): DataRefreshResult;
     entity: Entity;
 }
+
+interface DataRefreshError {
+    /**
+      * The error code.
+      */
+    errorCode: number;
+
+    /**
+      * A localized error message
+      */
+    message: string;
+}
+interface DataRefreshResult {
+    /**
+      * Set callback functions to the data refresh request
+      * @param successCallback A function to call when the operation succeeds
+      * @param errorCallback A function to call when the operation fails
+      */
+    then(successCallback: () => void, errorCallback: (error: DataRefreshError) => void);
+}
+
 interface Entity {
     attributes: AttributeCollection;
     addOnSave(ev: any): void;  // Sets a function to be called when the record is saved.    
