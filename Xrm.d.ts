@@ -135,11 +135,19 @@ interface AttributeFunctionCallback {
     (attribute: Attribute, index: number): any;
 }
 interface Tab {
-    getDisplayState();
+    /**
+      * Returns a value that indicates whether the tab is collapsed or expanded
+      * @returns One of 'expanded' or 'collapsed'
+      */
+    getDisplayState(): string;
     getLabel(): string;
     getParent();
     getVisible();
-    setDisplayState();
+    /**
+      * Sets the tab to be collapsed or expanded.
+      * @param state One of 'expanded' or 'collapsed'
+      */
+    setDisplayState(state: string);
     setFocus();
     setLabel();
     setVisible(isVisible: boolean);
