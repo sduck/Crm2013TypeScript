@@ -316,9 +316,9 @@ interface UserPrivilege {
 }
 
 interface Lookup {
-    Name: string;
-    Id: string;
-    EntityType: string;
+    name: string;
+    id: string;
+    entityType: string;
 }
 
 interface ExecutionContext {
