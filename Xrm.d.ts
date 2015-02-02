@@ -284,6 +284,7 @@ interface AttributeCollection {
 
 interface Attribute {
     addOnChange(ev: any): void;
+	controls: ControlsCollection<Control>;
     fireOnChange(): void;
     getAttributeType(): string;
     getFormat(): string;
